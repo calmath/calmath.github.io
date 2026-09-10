@@ -263,6 +263,33 @@
   #panel-b .tag.new { color: var(--accent-b-ink); background: var(--accent-b-tint); }
   .tag.ceiling { color: var(--warn-ink); background: var(--warn-bg); }
 
+  .load-field {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .load-field label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.76rem;
+    color: var(--text-muted);
+  }
+  .load-field input {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--surface-sunk);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 4px 8px;
+    width: 100px;
+    min-width: 0;
+  }
+  .load-field input:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 1px;
+  }
+
   .note {
     font-size: 0.83rem;
     color: var(--text-muted);
@@ -311,12 +338,17 @@
 
   .toolbar {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     gap: 10px;
     margin-top: 18px;
     padding-top: 14px;
     border-top: 1px solid var(--border);
+  }
+
+  .toolbar-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 
   .toolbar button {
@@ -331,6 +363,21 @@
     cursor: pointer;
   }
   .toolbar button:active { background: var(--surface-sunk); }
+
+  .toolbar .finalised {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+  }
+
+  .copy-status {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin: -4px 0 0;
+    line-height: 1.4;
+    word-break: break-word;
+    white-space: pre-line;
+  }
 
   footer {
     margin-top: 6px;
@@ -371,6 +418,10 @@
             <div class="body">
               <label class="name" for="a1-check">Leg press</label>
               <div class="tags"><span class="tag">3 × 10</span><span class="tag">log load</span></div>
+              <div class="load-field">
+                <label for="a1-load">Load</label>
+                <input type="text" inputmode="decimal" id="a1-load" data-load="a1" placeholder="e.g. 60kg" />
+              </div>
               <p class="note">Named load — record the working weight so progression is trackable week to week.</p>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -382,6 +433,10 @@
             <div class="body">
               <label class="name" for="a2-check">Hip thrust</label>
               <div class="tags"><span class="tag">3 × 10</span><span class="tag">log load</span></div>
+              <div class="load-field">
+                <label for="a2-load">Load</label>
+                <input type="text" inputmode="decimal" id="a2-load" data-load="a2" placeholder="e.g. 60kg" />
+              </div>
               <p class="note">Named load — record the working weight (bar + plates) at time of session.</p>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -491,6 +546,10 @@
             <div class="body">
               <label class="name" for="b2-check">Bulgarian split squat</label>
               <div class="tags"><span class="tag">3 × 8</span><span class="tag">each leg</span><span class="tag">log load</span></div>
+              <div class="load-field">
+                <label for="b2-load">Load</label>
+                <input type="text" inputmode="decimal" id="b2-load" data-load="b2" placeholder="e.g. 12.5kg" />
+              </div>
               <p class="note">Kept alongside the single-leg squat, not as a substitute for it. Record the dumbbell weight per hand.</p>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -502,6 +561,10 @@
             <div class="body">
               <label class="name" for="b3-check">Step-ups</label>
               <div class="tags"><span class="tag">3 × 10</span><span class="tag">each leg</span><span class="tag">log load</span></div>
+              <div class="load-field">
+                <label for="b3-load">Load</label>
+                <input type="text" inputmode="decimal" id="b3-load" data-load="b3" placeholder="e.g. 12.5kg" />
+              </div>
               <p class="note">Loaded, leading leg. Record the dumbbell weight per hand.</p>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -567,11 +630,15 @@
     </section>
 
     <div class="toolbar">
-      <button type="button" id="reset-btn">Reset today's checks</button>
-      <span style="font-family:'IBM Plex Mono',monospace;font-size:0.74rem;color:var(--text-muted);">finalised 10/09/2026</span>
+      <div class="toolbar-buttons">
+        <button type="button" id="reset-btn">Reset today's checks</button>
+        <button type="button" id="copy-btn">Copy session summary</button>
+      </div>
+      <span class="finalised">finalised 10/09/2026</span>
+      <p class="copy-status" id="copy-status" aria-live="polite"></p>
     </div>
 
-    <footer>Source of record: athlete-profile.md, calmath/running. Log actual loads and how the session went in your training log afterward — this page is the routine, not the log.</footer>
+    <footer>Source of record: athlete-profile.md, calmath/running. This page is a scratchpad for the session, not the log — copy the summary and paste it to Claude afterward to log it properly.</footer>
   </main>
 </div>
 
@@ -636,11 +703,96 @@
 
     if (hasNote) {
       row.addEventListener('click', function (e) {
-        if (e.target === cb || e.target.tagName === 'LABEL') return;
+        if (e.target === cb || e.target.tagName === 'LABEL' || e.target.closest('.load-field')) return;
         li.classList.toggle('open');
       });
     }
   });
+
+  var LOAD_KEY = 'sc-checklist-v1-loads';
+
+  function loadLoads() {
+    try {
+      return JSON.parse(localStorage.getItem(LOAD_KEY) || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+  function saveLoads(loads) {
+    try { localStorage.setItem(LOAD_KEY, JSON.stringify(loads)); } catch (e) {}
+  }
+
+  var loads = loadLoads();
+
+  document.querySelectorAll('.load-field input').forEach(function (input) {
+    var key = input.getAttribute('data-load');
+    if (loads[key]) input.value = loads[key];
+    input.addEventListener('input', function () {
+      loads[key] = input.value;
+      saveLoads(loads);
+    });
+  });
+
+  function todayUK() {
+    var d = new Date();
+    function pad2(n) { return String(n).padStart(2, '0'); }
+    return pad2(d.getDate()) + '/' + pad2(d.getMonth() + 1) + '/' + d.getFullYear();
+  }
+
+  function buildSummary(sessionKey) {
+    var label = sessionKey === 'a' ? 'Session A' : 'Session B';
+    var list = document.querySelector('ol[data-session="' + sessionKey + '"]');
+    var lines = ['S&C ' + label + ' — ' + todayUK()];
+    list.querySelectorAll('li').forEach(function (li) {
+      var name = li.querySelector('.name').textContent.trim();
+      var cb = li.querySelector('input[type="checkbox"]');
+      var mark = cb && cb.checked ? '[x]' : '[ ]';
+      var loadInput = li.querySelector('.load-field input');
+      var loadVal = loadInput && loadInput.value ? ' — ' + loadInput.value : '';
+      lines.push(mark + ' ' + name + loadVal);
+    });
+    return lines.join('\n');
+  }
+
+  function copyToClipboard(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        var ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) resolve(); else reject(new Error('copy failed'));
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  var copyBtn = document.getElementById('copy-btn');
+  var copyStatus = document.getElementById('copy-status');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var activeSection = document.querySelector('section.session.active');
+      var sessionKey = activeSection && activeSection.id === 'panel-b' ? 'b' : 'a';
+      var text = buildSummary(sessionKey);
+      copyToClipboard(text).then(function () {
+        if (copyStatus) {
+          copyStatus.textContent = 'Copied — paste it to Claude to log the session.';
+          setTimeout(function () { copyStatus.textContent = ''; }, 4000);
+        }
+      }).catch(function () {
+        if (copyStatus) copyStatus.textContent = text;
+      });
+    });
+  }
 
   document.querySelectorAll('nav.tabs button').forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -658,6 +810,9 @@
   document.getElementById('reset-btn').addEventListener('click', function () {
     state = {};
     saveState(state);
+    loads = {};
+    saveLoads(loads);
+    document.querySelectorAll('.load-field input').forEach(function (input) { input.value = ''; });
     applyState();
     document.querySelectorAll('.exercises li').forEach(function (li) { li.classList.remove('open'); });
   });

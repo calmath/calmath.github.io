@@ -279,6 +279,7 @@
     transition: transform 0.15s ease;
     flex-shrink: 0;
   }
+  .chev.is-hidden { display: none; }
 
   .strip {
     border-radius: 10px;
@@ -618,6 +619,11 @@
     var cb = li.querySelector('input[type="checkbox"]');
     var row = li.querySelector('.row');
     var hasNote = !!li.querySelector('.note');
+
+    if (!hasNote) {
+      var chev = li.querySelector('.chev');
+      if (chev) chev.classList.add('is-hidden');
+    }
 
     cb.addEventListener('change', function (e) {
       e.stopPropagation();

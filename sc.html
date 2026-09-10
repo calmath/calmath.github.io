@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S&amp;C Checklist</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #eef1ef;
+    --surface: #ffffff;
+    --surface-sunk: #e4e8e5;
+    --text: #182220;
+    --text-muted: #56655f;
+    --border: #d4dad6;
+    --border-strong: #b7c0bb;
+    --accent-a: #a8551f;
+    --accent-a-tint: #f3e2d3;
+    --accent-a-ink: #7a3d15;
+    --accent-b: #1f6f6a;
+    --accent-b-tint: #dcece9;
+    --accent-b-ink: #164f4b;
+    --warn-bg: #fbe9d2;
+    --warn-border: #d99a4e;
+    --warn-ink: #6b4413;
+    --done-bg: #e7efe6;
+    --shadow: 0 1px 2px rgba(20, 30, 27, 0.06), 0 6px 16px rgba(20, 30, 27, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12181a;
+      --surface: #1a2224;
+      --surface-sunk: #212a2c;
+      --text: #e7ede9;
+      --text-muted: #93a19b;
+      --border: #2b3436;
+      --border-strong: #3a4547;
+      --accent-a: #e29455;
+      --accent-a-tint: #35271c;
+      --accent-a-ink: #f2c69b;
+      --accent-b: #56bdb5;
+      --accent-b-tint: #17302e;
+      --accent-b-ink: #a4ded8;
+      --warn-bg: #362a18;
+      --warn-border: #8a5a24;
+      --warn-ink: #eec98e;
+      --done-bg: #1b2820;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #12181a;
+    --surface: #1a2224;
+    --surface-sunk: #212a2c;
+    --text: #e7ede9;
+    --text-muted: #93a19b;
+    --border: #2b3436;
+    --border-strong: #3a4547;
+    --accent-a: #e29455;
+    --accent-a-tint: #35271c;
+    --accent-a-ink: #f2c69b;
+    --accent-b: #56bdb5;
+    --accent-b-tint: #17302e;
+    --accent-b-ink: #a4ded8;
+    --warn-bg: #362a18;
+    --warn-border: #8a5a24;
+    --warn-ink: #eec98e;
+    --done-bg: #1b2820;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    padding: 0 16px calc(env(safe-area-inset-bottom, 0px) + 32px);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .wrap { max-width: 560px; margin: 0 auto; }
+
+  header.top {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--bg);
+    padding-block: 14px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    margin-bottom: 6px;
+  }
+  .back-link:hover { color: var(--text); }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 2px;
+  }
+
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    letter-spacing: 0.01em;
+    margin: 0 0 10px;
+    text-wrap: balance;
+  }
+
+  nav.tabs {
+    display: flex;
+    gap: 8px;
+  }
+
+  nav.tabs button {
+    flex: 1;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  nav.tabs button[aria-selected="true"] { color: var(--text); }
+  nav.tabs button[data-tab="a"][aria-selected="true"] {
+    border-color: var(--accent-a);
+    background: var(--accent-a-tint);
+    color: var(--accent-a-ink);
+  }
+  nav.tabs button[data-tab="b"][aria-selected="true"] {
+    border-color: var(--accent-b);
+    background: var(--accent-b-tint);
+    color: var(--accent-b-ink);
+  }
+
+  main { padding-top: 16px; }
+
+  section.session { display: none; }
+  section.session.active { display: block; }
+
+  .session-head {
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow);
+  }
+  #panel-a .session-head { background: var(--accent-a-tint); border: 1px solid var(--accent-a); }
+  #panel-b .session-head { background: var(--accent-b-tint); border: 1px solid var(--accent-b); }
+
+  .session-head .label {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    margin: 0 0 2px;
+  }
+  #panel-a .session-head .label { color: var(--accent-a-ink); }
+  #panel-b .session-head .label { color: var(--accent-b-ink); }
+
+  .session-head .focus {
+    font-size: 0.86rem;
+    color: var(--text);
+    margin: 0;
+  }
+  .session-head .progress {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  ol.exercises {
+    list-style: none;
+    margin: 0 0 14px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  ol.exercises li {
+    border-top: 1px solid var(--border);
+  }
+  ol.exercises li:first-child { border-top: none; }
+
+  .row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 14px;
+    cursor: pointer;
+  }
+  .row.done { background: var(--done-bg); }
+
+  .row input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 21px;
+    height: 21px;
+    min-width: 21px;
+    margin-top: 2px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border-strong);
+    background: var(--surface);
+    display: grid;
+    place-content: center;
+    cursor: pointer;
+  }
+  #panel-a .row input[type="checkbox"]:checked { background: var(--accent-a); border-color: var(--accent-a); }
+  #panel-b .row input[type="checkbox"]:checked { background: var(--accent-b); border-color: var(--accent-b); }
+  .row input[type="checkbox"]:checked::after {
+    content: "";
+    width: 6px; height: 10px;
+    border-right: 2px solid var(--surface);
+    border-bottom: 2px solid var(--surface);
+    transform: rotate(45deg) translate(-1px, -1px);
+  }
+  .row input[type="checkbox"]:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+  .row .body { flex: 1; min-width: 0; }
+
+  .row .name {
+    font-weight: 500;
+    font-size: 0.97rem;
+    line-height: 1.3;
+  }
+  .row.done .name { color: var(--text-muted); text-decoration: line-through; text-decoration-color: var(--border-strong); }
+
+  .row .tags { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    background: var(--surface-sunk);
+    border-radius: 5px;
+    padding: 1px 6px;
+    white-space: nowrap;
+  }
+  .tag.new { color: var(--accent-a-ink); background: var(--accent-a-tint); }
+  #panel-b .tag.new { color: var(--accent-b-ink); background: var(--accent-b-tint); }
+  .tag.ceiling { color: var(--warn-ink); background: var(--warn-bg); }
+
+  .note {
+    font-size: 0.83rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+    line-height: 1.4;
+    display: none;
+  }
+  li.open .note { display: block; }
+  li.open .chev { transform: rotate(180deg); }
+
+  .chev {
+    color: var(--text-muted);
+    margin-top: 3px;
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+  }
+
+  .strip {
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    margin-bottom: 12px;
+  }
+  .strip.warn {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    color: var(--warn-ink);
+  }
+  .strip.deferred {
+    background: var(--surface);
+    border: 1px dashed var(--border-strong);
+    color: var(--text-muted);
+  }
+  .strip strong { color: inherit; }
+
+  .strip .head {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    margin: 0 0 4px;
+  }
+
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  .toolbar button {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    background: none;
+    border: 1px solid var(--border-strong);
+    border-radius: 7px;
+    padding: 7px 11px;
+    cursor: pointer;
+  }
+  .toolbar button:active { background: var(--surface-sunk); }
+
+  footer {
+    margin-top: 6px;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chev { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="back-link" href="index.html">← This week</a>
+    <p class="eyebrow">Return &amp; Rebuild — Block 0</p>
+    <h1>S&amp;C Checklist</h1>
+    <nav class="tabs" role="tablist">
+      <button type="button" data-tab="a" role="tab" aria-selected="true">Session A · Thu</button>
+      <button type="button" data-tab="b" role="tab" aria-selected="false">Session B · Sun</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="session active" id="panel-a">
+      <div class="session-head">
+        <p class="label">Session A — Posterior Chain</p>
+        <p class="focus">Hamstring ladder + calf/Achilles capacity. Thursday, paired with the easy run.</p>
+        <p class="progress" data-progress="a">0 / 9 done</p>
+      </div>
+
+      <ol class="exercises" data-session="a">
+        <li data-id="a1">
+          <div class="row">
+            <input type="checkbox" id="a1-check" />
+            <div class="body">
+              <label class="name" for="a1-check">Leg press</label>
+              <div class="tags"><span class="tag">3 × 10</span><span class="tag">log load</span></div>
+              <p class="note">Named load — record the working weight so progression is trackable week to week.</p>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="a2">
+          <div class="row">
+            <input type="checkbox" id="a2-check" />
+            <div class="body">
+              <label class="name" for="a2-check">Hip thrust</label>
+              <div class="tags"><span class="tag">3 × 10</span><span class="tag">log load</span></div>
+              <p class="note">Named load — record the working weight (bar + plates) at time of session.</p>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="a3">
+          <div class="row">
+            <input type="checkbox" id="a3-check" />
+            <div class="body">
+              <label class="name" for="a3-check">Hamstring ladder slot</label>
+              <div class="tags"><span class="tag">3 × 8</span><span class="tag ceiling">≤3/10</span></div>
+              <p class="note">Current stage: eccentric sliders, comfortable range only. Drop back a stage on any flare rather than pushing through — this is Governing Rule 1's isometric → isotonic → eccentric sliders → Nordics ladder.</p>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="a4">
+          <div class="row">
+            <input type="checkbox" id="a4-check" />
+            <div class="body">
+              <label class="name" for="a4-check">Banded lateral walk</label>
+              <div class="tags"><span class="tag">2 × 10</span><span class="tag">each direction</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="a5">
+          <div class="row">
+            <input type="checkbox" id="a5-check" />
+            <div class="body">
+              <label class="name" for="a5-check">Single-leg calf raise</label>
+              <div class="tags"><span class="tag">3 × 10</span><span class="tag">each leg · bodyweight</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="a6">
+          <div class="row">
+            <input type="checkbox" id="a6-check" />
+            <div class="body">
+              <label class="name" for="a6-check">Eccentric heel drop</label>
+              <div class="tags"><span class="tag">3 × 12–15</span><span class="tag">each leg</span><span class="tag new">new</span></div>
+              <p class="note">Straight knee, off a step edge. Slow 3–4s lower. Preventative calf/Achilles capacity work — added 10/09, no current symptom driving it.</p>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="a7">
+          <div class="row">
+            <input type="checkbox" id="a7-check" />
+            <div class="body">
+              <label class="name" for="a7-check">Pallof press</label>
+              <div class="tags"><span class="tag">2 × 10</span><span class="tag">each side</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="a8">
+          <div class="row">
+            <input type="checkbox" id="a8-check" />
+            <div class="body">
+              <label class="name" for="a8-check">Plank</label>
+              <div class="tags"><span class="tag">3 × 30–35s</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="a9">
+          <div class="row">
+            <input type="checkbox" id="a9-check" />
+            <div class="body">
+              <label class="name" for="a9-check">Dead bug</label>
+              <div class="tags"><span class="tag">3 × 8</span><span class="tag">each side</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+      </ol>
+
+      <div class="strip warn">
+        <p class="head">Symptom ceiling</p>
+        Ladder and progression exercises stay at ≤3/10 discomfort, comfortable range only. Any flare: back off load or range immediately and drop back a stage — don't push through.
+      </div>
+    </section>
+
+    <section class="session" id="panel-b">
+      <div class="session-head">
+        <p class="label">Session B — Unilateral &amp; Hip Stability</p>
+        <p class="focus">Single-leg strength + glute/hip stability. Sunday.</p>
+        <p class="progress" data-progress="b">0 / 8 done</p>
+      </div>
+
+      <ol class="exercises" data-session="b">
+        <li data-id="b1">
+          <div class="row">
+            <input type="checkbox" id="b1-check" />
+            <div class="body">
+              <label class="name" for="b1-check">Single-leg squat</label>
+              <div class="tags"><span class="tag">3 × 10</span><span class="tag">each leg · box/step-assisted</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="b2">
+          <div class="row">
+            <input type="checkbox" id="b2-check" />
+            <div class="body">
+              <label class="name" for="b2-check">Bulgarian split squat</label>
+              <div class="tags"><span class="tag">3 × 8</span><span class="tag">each leg</span><span class="tag">log load</span></div>
+              <p class="note">Kept alongside the single-leg squat, not as a substitute for it. Record the dumbbell weight per hand.</p>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="b3">
+          <div class="row">
+            <input type="checkbox" id="b3-check" />
+            <div class="body">
+              <label class="name" for="b3-check">Step-ups</label>
+              <div class="tags"><span class="tag">3 × 10</span><span class="tag">each leg</span><span class="tag">log load</span></div>
+              <p class="note">Loaded, leading leg. Record the dumbbell weight per hand.</p>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="b4">
+          <div class="row">
+            <input type="checkbox" id="b4-check" />
+            <div class="body">
+              <label class="name" for="b4-check">Bridge</label>
+              <div class="tags"><span class="tag">3 × 10</span><span class="tag">double → single-leg</span></div>
+              <p class="note">Progress to the single-leg version once the double-leg version is consistently clean and symptom-free.</p>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="b5">
+          <div class="row">
+            <input type="checkbox" id="b5-check" />
+            <div class="body">
+              <label class="name" for="b5-check">Clamshell / banded hip abduction</label>
+              <div class="tags"><span class="tag">2 × 12</span><span class="tag">each side</span><span class="tag new">new</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="b6">
+          <div class="row">
+            <input type="checkbox" id="b6-check" />
+            <div class="body">
+              <label class="name" for="b6-check">Prone leg curl</label>
+              <div class="tags"><span class="tag">3 × 10</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="b7">
+          <div class="row">
+            <input type="checkbox" id="b7-check" />
+            <div class="body">
+              <label class="name" for="b7-check">Plank</label>
+              <div class="tags"><span class="tag">3 × 30–35s</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+        <li data-id="b8">
+          <div class="row">
+            <input type="checkbox" id="b8-check" />
+            <div class="body">
+              <label class="name" for="b8-check">Dead bug</label>
+              <div class="tags"><span class="tag">3 × 8</span><span class="tag">each side</span></div>
+            </div>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </li>
+      </ol>
+
+      <div class="strip deferred">
+        <p class="head">Not yet in rotation</p>
+        Box jumps and other plyometric work — flagged as a future progression once the current ladder work is further along. Not part of either session yet.
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <button type="button" id="reset-btn">Reset today's checks</button>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:0.74rem;color:var(--text-muted);">finalised 10/09/2026</span>
+    </div>
+
+    <footer>Source of record: athlete-profile.md, calmath/running. Log actual loads and how the session went in your training log afterward — this page is the routine, not the log.</footer>
+  </main>
+</div>
+
+<script>
+(function () {
+  var STORE_KEY = 'sc-checklist-v1';
+
+  function loadState() {
+    try {
+      return JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
+    } catch (e) {
+      return {};
+    }
+  }
+  function saveState(state) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
+  }
+
+  var state = loadState();
+
+  function updateProgress(sessionKey) {
+    var list = document.querySelector('ol[data-session="' + sessionKey + '"]');
+    if (!list) return;
+    var items = list.querySelectorAll('input[type="checkbox"]');
+    var done = 0;
+    items.forEach(function (cb) { if (cb.checked) done++; });
+    var el = document.querySelector('[data-progress="' + sessionKey + '"]');
+    if (el) el.textContent = done + ' / ' + items.length + ' done';
+  }
+
+  function applyState() {
+    document.querySelectorAll('.exercises li').forEach(function (li) {
+      var id = li.getAttribute('data-id');
+      var cb = li.querySelector('input[type="checkbox"]');
+      if (!cb) return;
+      cb.checked = !!state[id];
+      li.querySelector('.row').classList.toggle('done', cb.checked);
+    });
+    updateProgress('a');
+    updateProgress('b');
+  }
+
+  document.querySelectorAll('.exercises li').forEach(function (li) {
+    var id = li.getAttribute('data-id');
+    var cb = li.querySelector('input[type="checkbox"]');
+    var row = li.querySelector('.row');
+    var hasNote = !!li.querySelector('.note');
+
+    cb.addEventListener('change', function (e) {
+      e.stopPropagation();
+      state[id] = cb.checked;
+      saveState(state);
+      row.classList.toggle('done', cb.checked);
+      var session = li.closest('ol').getAttribute('data-session');
+      updateProgress(session);
+    });
+
+    if (hasNote) {
+      row.addEventListener('click', function (e) {
+        if (e.target === cb || e.target.tagName === 'LABEL') return;
+        li.classList.toggle('open');
+      });
+    }
+  });
+
+  document.querySelectorAll('nav.tabs button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var tab = btn.getAttribute('data-tab');
+      document.querySelectorAll('nav.tabs button').forEach(function (b) {
+        b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+      });
+      document.querySelectorAll('section.session').forEach(function (s) {
+        s.classList.toggle('active', s.id === 'panel-' + tab);
+      });
+      try { localStorage.setItem(STORE_KEY + '-tab', tab); } catch (e) {}
+    });
+  });
+
+  document.getElementById('reset-btn').addEventListener('click', function () {
+    state = {};
+    saveState(state);
+    applyState();
+    document.querySelectorAll('.exercises li').forEach(function (li) { li.classList.remove('open'); });
+  });
+
+  var hashTab = (location.hash === '#a' || location.hash === '#b') ? location.hash.slice(1) : null;
+  var savedTab = null;
+  try { savedTab = localStorage.getItem(STORE_KEY + '-tab'); } catch (e) {}
+  var initialTab = hashTab || savedTab;
+  if (initialTab === 'b') {
+    document.querySelector('nav.tabs button[data-tab="b"]').click();
+  }
+
+  applyState();
+})();
+</script>
+</body>
+</html>

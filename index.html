@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Week</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #eef1ef;
+    --surface: #ffffff;
+    --surface-sunk: #e4e8e5;
+    --text: #182220;
+    --text-muted: #56655f;
+    --border: #d4dad6;
+    --border-strong: #b7c0bb;
+    --accent-a: #a8551f;
+    --accent-a-tint: #f3e2d3;
+    --accent-a-ink: #7a3d15;
+    --accent-b: #1f6f6a;
+    --accent-b-tint: #dcece9;
+    --accent-b-ink: #164f4b;
+    --today-bg: #fff6e0;
+    --today-border: #d9b95a;
+    --shadow: 0 1px 2px rgba(20, 30, 27, 0.06), 0 6px 16px rgba(20, 30, 27, 0.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12181a;
+      --surface: #1a2224;
+      --surface-sunk: #212a2c;
+      --text: #e7ede9;
+      --text-muted: #93a19b;
+      --border: #2b3436;
+      --border-strong: #3a4547;
+      --accent-a: #e29455;
+      --accent-a-tint: #35271c;
+      --accent-a-ink: #f2c69b;
+      --accent-b: #56bdb5;
+      --accent-b-tint: #17302e;
+      --accent-b-ink: #a4ded8;
+      --today-bg: #2c260f;
+      --today-border: #8a6d1e;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #12181a;
+    --surface: #1a2224;
+    --surface-sunk: #212a2c;
+    --text: #e7ede9;
+    --text-muted: #93a19b;
+    --border: #2b3436;
+    --border-strong: #3a4547;
+    --accent-a: #e29455;
+    --accent-a-tint: #35271c;
+    --accent-a-ink: #f2c69b;
+    --accent-b: #56bdb5;
+    --accent-b-tint: #17302e;
+    --accent-b-ink: #a4ded8;
+    --today-bg: #2c260f;
+    --today-border: #8a6d1e;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+    padding: 0 16px 32px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .wrap { max-width: 560px; margin: 0 auto; }
+
+  header.top {
+    padding-block: 18px 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin: 0 0 2px;
+  }
+
+  h1 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 1.55rem;
+    letter-spacing: 0.01em;
+    margin: 0 0 4px;
+    text-wrap: balance;
+  }
+
+  .range {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin: 0 0 10px;
+  }
+
+  .sc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 0.86rem;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    text-decoration: none;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 7px 12px;
+    background: var(--surface);
+  }
+  .sc-link svg { flex-shrink: 0; }
+
+  ol.days {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--shadow);
+  }
+
+  ol.days li {
+    border-top: 1px solid var(--border);
+    padding: 12px 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  ol.days li:first-child { border-top: none; }
+  ol.days li.today {
+    background: var(--today-bg);
+    border-top-color: var(--today-border);
+    border-bottom: 1px solid var(--today-border);
+    margin: -1px 0;
+  }
+
+  .day-mark {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    min-width: 74px;
+    padding-top: 2px;
+  }
+  .day-mark .dow {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+  li.today .day-mark .dow { color: var(--accent-a-ink); }
+
+  .day-body { flex: 1; min-width: 0; }
+
+  .session {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .sc-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 6px;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    font-size: 0.82rem;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    border-radius: 7px;
+    padding: 4px 9px;
+  }
+  .sc-pill.a { background: var(--accent-a-tint); color: var(--accent-a-ink); }
+  .sc-pill.b { background: var(--accent-b-tint); color: var(--accent-b-ink); }
+
+  .weekly-total {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 12px 14px;
+    border-top: 1px dashed var(--border-strong);
+  }
+  .weekly-total strong { color: var(--text); font-variant-numeric: tabular-nums; }
+
+  .strip {
+    border-radius: 10px;
+    padding: 11px 14px;
+    font-size: 0.83rem;
+    line-height: 1.45;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px dashed var(--border-strong);
+    margin-bottom: 12px;
+  }
+  .strip.goal {
+    background: var(--accent-a-tint);
+    border: 1px solid var(--accent-a);
+    color: var(--accent-a-ink);
+  }
+  .strip .head {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    margin: 0 0 3px;
+  }
+
+  footer {
+    margin-top: 6px;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="eyebrow">Return &amp; Rebuild — Block 0</p>
+    <h1>Week 9</h1>
+    <p class="range">7–13 September 2026</p>
+    <a class="sc-link" href="sc.html">
+      <svg width="15" height="15" viewBox="0 0 16 16"><path d="M4 2v12M12 2v12M2 5h12M2 11h12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      S&amp;C sessions
+    </a>
+  </header>
+
+  <div class="strip goal">
+    <p class="head">This week's goal</p>
+    Progress the hamstring eccentric ladder from stage 2 to stage 3 (Thursday's S&amp;C A) — the week's primary strength objective.
+  </div>
+
+  <ol class="days">
+    <li data-date="2026-09-07">
+      <div class="day-mark"><span class="dow">Mon</span>07 Sep</div>
+      <div class="day-body">
+        <p class="session">Easy — 4 mi. No pace target.</p>
+      </div>
+    </li>
+    <li data-date="2026-09-08">
+      <div class="day-mark"><span class="dow">Tue</span>08 Sep</div>
+      <div class="day-body">
+        <p class="session">Easy — 4 mi + strides, 4 × 20s controlled. No pace target.</p>
+      </div>
+    </li>
+    <li data-date="2026-09-09">
+      <div class="day-mark"><span class="dow">Wed</span>09 Sep</div>
+      <div class="day-body">
+        <p class="session">Easy/moderate — 5–6 mi, club pace.</p>
+      </div>
+    </li>
+    <li data-date="2026-09-10">
+      <div class="day-mark"><span class="dow">Thu</span>10 Sep</div>
+      <div class="day-body">
+        <p class="session">Easy — 3 mi.</p>
+        <a class="sc-pill a" href="sc.html#a">S&amp;C A →</a>
+      </div>
+    </li>
+    <li data-date="2026-09-11">
+      <div class="day-mark"><span class="dow">Fri</span>11 Sep</div>
+      <div class="day-body">
+        <p class="session">Easy — 4 mi.</p>
+      </div>
+    </li>
+    <li data-date="2026-09-12">
+      <div class="day-mark"><span class="dow">Sat</span>12 Sep</div>
+      <div class="day-body">
+        <p class="session">Medium-long, easy effort — 5–6 mi (few miles + parkrun, easy + few miles).</p>
+      </div>
+    </li>
+    <li data-date="2026-09-13">
+      <div class="day-mark"><span class="dow">Sun</span>13 Sep</div>
+      <div class="day-body">
+        <p class="session">No run.</p>
+        <a class="sc-pill b" href="sc.html#b">S&amp;C B →</a>
+      </div>
+    </li>
+    <li class="weekly-total">Weekly total (plan-file): <strong>~25–27 mi</strong></li>
+  </ol>
+
+  <div class="strip">No target paces prescribed this week — early Return &amp; Rebuild phase, Governing Rules 3 &amp; 5 in force (no quality sessions until Week 13).</div>
+
+  <footer>Plan-file prescription only — not a comparison against actuals. Regenerated at the start of each week from the Training Plan.</footer>
+</div>
+
+<script>
+(function () {
+  var today = new Date();
+  var iso = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+  var match = document.querySelector('li[data-date="' + iso + '"]');
+  if (match) match.classList.add('today');
+})();
+</script>
+</body>
+</html>

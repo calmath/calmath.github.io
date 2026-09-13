@@ -619,7 +619,15 @@
             <input type="checkbox" id="b6-check" />
             <div class="body">
               <label class="name" for="b6-check">Prone leg curl</label>
-              <div class="tags"><span class="tag">3 × 10</span></div>
+              <div class="tags"><span class="tag">3 × 10</span><span class="tag">log load</span></div>
+              <div class="load-field">
+                <div class="load-input-row">
+                  <label for="b6-load">Load</label>
+                  <input type="text" inputmode="decimal" id="b6-load" data-load="b6" placeholder="e.g. 32kg" />
+                </div>
+                <p class="load-suggested">Suggested: 32kg (set 13/09)</p>
+              </div>
+              <p class="note">Named load — record the machine stack weight so progression is trackable week to week.</p>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -657,7 +665,7 @@
         <button type="button" id="reset-btn">Reset today's checks</button>
         <button type="button" id="copy-btn">Copy session summary</button>
       </div>
-      <span class="finalised">finalised 10/09/2026</span>
+      <span class="finalised">finalised 13/09/2026</span>
       <p class="copy-status" id="copy-status" aria-live="polite"></p>
     </div>
 

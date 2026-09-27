@@ -228,20 +228,39 @@
 
   .pace-plan {
     margin: 8px 0 0;
-    padding: 9px 11px;
     border-radius: 8px;
     background: var(--surface-sunk);
     font-size: 0.84rem;
     line-height: 1.45;
   }
+  .pace-plan .pace-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 11px;
+    cursor: pointer;
+  }
+  .pace-plan .pace-row:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 1px;
+    border-radius: 8px;
+  }
   .pace-plan .target {
+    flex: 1;
+    min-width: 0;
     font-family: 'Oswald', sans-serif;
     font-weight: 600;
     font-size: 0.92rem;
     letter-spacing: 0.01em;
     color: var(--accent-a-ink);
-    margin: 0 0 4px;
+    margin: 0;
   }
+  .pace-plan .pace-detail {
+    display: none;
+    padding: 0 11px 9px;
+  }
+  .pace-plan.open .pace-detail { display: block; }
+  .pace-plan.open .chev { transform: rotate(180deg); }
   .pace-plan ul {
     margin: 0;
     padding-left: 18px;
@@ -253,11 +272,22 @@
     font-size: 0.8rem;
   }
 
+  .chev {
+    color: var(--text-muted);
+    margin-top: 3px;
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+  }
+
   footer {
     margin-top: 6px;
     font-size: 0.74rem;
     color: var(--text-muted);
     text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chev { transition: none; }
   }
 </style>
 </head>
@@ -315,13 +345,18 @@
       <div class="day-body">
         <p class="session">Medium-long, moderate effort — 8 mi (few miles + parkrun field test, genuine 5K time-trial effort, not easy this week + few miles).</p>
         <div class="pace-plan">
-          <p class="target">Target ~18:00 (range 17:45–18:15) · 5:43–5:52/mi · 3:33–3:39/km</p>
-          <ul>
-            <li><strong>Km 1:</strong> 3:38–3:40/km (5:51–5:54/mi), deliberately controlled.</li>
-            <li><strong>Km 2–4:</strong> 3:35–3:37/km (5:46–5:49/mi), hard but rhythmic; run hills to effort.</li>
-            <li><strong>Km 5:</strong> open up. If there's plenty left, sub-18 comes naturally.</li>
-          </ul>
-          <p class="note">Even pacing matters more than the time. Hamstring above 3/10 at any point: ease to steady and treat it as a training run.</p>
+          <div class="pace-row" role="button" tabindex="0" aria-expanded="false" aria-controls="pace-detail-sat">
+            <p class="target">Target ~18:00 (range 17:45–18:15) · 5:43–5:52/mi · 3:33–3:39/km</p>
+            <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="pace-detail" id="pace-detail-sat">
+            <ul>
+              <li><strong>Km 1:</strong> 3:38–3:40/km (5:51–5:54/mi), deliberately controlled.</li>
+              <li><strong>Km 2–4:</strong> 3:35–3:37/km (5:46–5:49/mi), hard but rhythmic; run hills to effort.</li>
+              <li><strong>Km 5:</strong> open up. If there's plenty left, sub-18 comes naturally.</li>
+            </ul>
+            <p class="note">Even pacing matters more than the time. Hamstring above 3/10 at any point: ease to steady and treat it as a training run.</p>
+          </div>
         </div>
       </div>
     </li>
@@ -346,6 +381,22 @@
   var iso = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
   var match = document.querySelector('li[data-date="' + iso + '"]');
   if (match) match.classList.add('today');
+
+  document.querySelectorAll('.pace-plan').forEach(function (plan) {
+    var row = plan.querySelector('.pace-row');
+    if (!row) return;
+    function toggle() {
+      var open = plan.classList.toggle('open');
+      row.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    row.addEventListener('click', toggle);
+    row.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
 })();
 </script>
 </body>

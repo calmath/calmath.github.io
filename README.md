@@ -10,4 +10,4 @@ A mobile-friendly, no-login reference site for the current training week, publis
 
 Nothing sensitive lives here by design — day-by-day session detail and the S&C routine only, no training log data, no personal identifiers beyond the routine itself.
 
-Live site: https://calmath.github.io/sc-checklist/ (Settings → Pages → Deploy from a branch → `main` / `/root`).
+Live site: https://calmath.github.io/ (Settings → Pages → Deploy from a branch → `main` / `/root`).

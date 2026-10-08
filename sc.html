@@ -279,6 +279,32 @@
     font-size: 0.76rem;
     color: var(--text-muted);
   }
+  .dose {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .dose .times, .unit {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  input.num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: var(--surface-sunk);
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    padding: 5px 6px;
+    width: 58px;
+    min-width: 0;
+    text-align: center;
+  }
+  input.num::placeholder { color: var(--text-muted); opacity: 0.75; }
+  input.num:focus-visible { outline: 2px solid var(--text); outline-offset: 1px; }
   .load-input-row input {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 0.85rem;
@@ -286,19 +312,13 @@
     background: var(--surface-sunk);
     border: 1px solid var(--border-strong);
     border-radius: 6px;
-    padding: 4px 8px;
-    width: 100px;
+    padding: 5px 6px;
+    width: 58px;
     min-width: 0;
   }
   .load-input-row input:focus-visible {
     outline: 2px solid var(--text);
     outline-offset: 1px;
-  }
-  .load-suggested {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    margin: 0;
   }
 
   .note {
@@ -428,13 +448,13 @@
             <input type="checkbox" id="a1-check" />
             <div class="body">
               <label class="name" for="a1-check">Leg press</label>
-              <div class="tags"><span class="tag">3 × 10</span><span class="tag">log load</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="a1-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="a1-reps" placeholder="10" aria-label="Reps per set" /></div>
               <div class="load-field">
                 <div class="load-input-row">
                   <label for="a1-load">Load</label>
-                  <input type="text" inputmode="decimal" id="a1-load" data-load="a1" placeholder="e.g. 60kg" />
+                  <input type="text" inputmode="decimal" class="num num-load" id="a1-load" data-load="a1" data-suffix="" placeholder="60" />
+                  <span class="unit">kg</span>
                 </div>
-                <p class="load-suggested">Suggested: ~50kg (estimate, unconfirmed — set 10/09)</p>
               </div>
               <p class="note">Named load — record the working weight so progression is trackable week to week.</p>
             </div>
@@ -446,13 +466,13 @@
             <input type="checkbox" id="a2-check" />
             <div class="body">
               <label class="name" for="a2-check">Hip thrust</label>
-              <div class="tags"><span class="tag">3 × 10</span><span class="tag">log load</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="a2-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="a2-reps" placeholder="10" aria-label="Reps per set" /></div>
               <div class="load-field">
                 <div class="load-input-row">
                   <label for="a2-load">Load</label>
-                  <input type="text" inputmode="decimal" id="a2-load" data-load="a2" placeholder="e.g. 60kg" />
+                  <input type="text" inputmode="decimal" class="num num-load" id="a2-load" data-load="a2" data-suffix="" placeholder="28" />
+                  <span class="unit">kg</span>
                 </div>
-                <p class="load-suggested">Suggested: not yet set — this session sets the baseline</p>
               </div>
               <p class="note">Named load — record the working weight (bar + plates) at time of session.</p>
             </div>
@@ -464,7 +484,8 @@
             <input type="checkbox" id="a3-check" />
             <div class="body">
               <label class="name" for="a3-check">Hamstring ladder slot</label>
-              <div class="tags"><span class="tag">3 × 8</span><span class="tag ceiling">≤3/10</span></div>
+              <div class="tags"><span class="tag ceiling">≤3/10</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="a3-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="a3-reps" placeholder="8" aria-label="Reps per set" /></div>
               <p class="note">Current stage: eccentric sliders, comfortable range only. Drop back a stage on any flare rather than pushing through — this is Governing Rule 1's isometric → isotonic → eccentric sliders → Nordics ladder.</p>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -475,7 +496,8 @@
             <input type="checkbox" id="a4-check" />
             <div class="body">
               <label class="name" for="a4-check">Banded lateral walk</label>
-              <div class="tags"><span class="tag">2 × 10</span><span class="tag">each direction</span></div>
+              <div class="tags"><span class="tag">each direction</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="a4-sets" placeholder="2" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="a4-reps" placeholder="10" aria-label="Reps per set" /></div>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -485,7 +507,8 @@
             <input type="checkbox" id="a5-check" />
             <div class="body">
               <label class="name" for="a5-check">Single-leg calf raise</label>
-              <div class="tags"><span class="tag">3 × 10</span><span class="tag">each leg · bodyweight</span></div>
+              <div class="tags"><span class="tag">each leg · bodyweight</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="a5-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="a5-reps" placeholder="10" aria-label="Reps per set" /></div>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -495,7 +518,8 @@
             <input type="checkbox" id="a6-check" />
             <div class="body">
               <label class="name" for="a6-check">Eccentric heel drop</label>
-              <div class="tags"><span class="tag">3 × 12–15</span><span class="tag">each leg</span><span class="tag new">new</span></div>
+              <div class="tags"><span class="tag">each leg</span><span class="tag new">new</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="a6-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="a6-reps" placeholder="12–15" aria-label="Reps per set" /></div>
               <p class="note">Straight knee, off a step edge. Slow 3–4s lower. Preventative calf/Achilles capacity work — added 10/09, no current symptom driving it.</p>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -506,7 +530,8 @@
             <input type="checkbox" id="a7-check" />
             <div class="body">
               <label class="name" for="a7-check">Pallof press</label>
-              <div class="tags"><span class="tag">2 × 10</span><span class="tag">each side</span></div>
+              <div class="tags"><span class="tag">each side</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="a7-sets" placeholder="2" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="a7-reps" placeholder="10" aria-label="Reps per set" /></div>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -516,7 +541,7 @@
             <input type="checkbox" id="a8-check" />
             <div class="body">
               <label class="name" for="a8-check">Plank</label>
-              <div class="tags"><span class="tag">3 × 30–35s</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="a8-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="a8-reps" placeholder="40" aria-label="Seconds per set" /><span class="unit">s</span></div>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -526,7 +551,8 @@
             <input type="checkbox" id="a9-check" />
             <div class="body">
               <label class="name" for="a9-check">Dead bug</label>
-              <div class="tags"><span class="tag">3 × 8</span><span class="tag">each side</span></div>
+              <div class="tags"><span class="tag">each side</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="a9-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="a9-reps" placeholder="8" aria-label="Reps per set" /></div>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -552,7 +578,8 @@
             <input type="checkbox" id="b1-check" />
             <div class="body">
               <label class="name" for="b1-check">Single-leg squat</label>
-              <div class="tags"><span class="tag">3 × 10</span><span class="tag">each leg · box/step-assisted</span></div>
+              <div class="tags"><span class="tag">each leg · box/step-assisted</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="b1-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="b1-reps" placeholder="10" aria-label="Reps per set" /></div>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -562,13 +589,14 @@
             <input type="checkbox" id="b2-check" />
             <div class="body">
               <label class="name" for="b2-check">Bulgarian split squat</label>
-              <div class="tags"><span class="tag">3 × 8</span><span class="tag">each leg</span><span class="tag">log load</span></div>
+              <div class="tags"><span class="tag">each leg</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="b2-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="b2-reps" placeholder="8" aria-label="Reps per set" /></div>
               <div class="load-field">
                 <div class="load-input-row">
                   <label for="b2-load">Load</label>
-                  <input type="text" inputmode="decimal" id="b2-load" data-load="b2" placeholder="e.g. 12.5kg" />
+                  <input type="text" inputmode="decimal" class="num num-load" id="b2-load" data-load="b2" data-suffix="each hand" placeholder="6" />
+                  <span class="unit">kg each hand</span>
                 </div>
-                <p class="load-suggested">Suggested: 6kg each hand</p>
               </div>
               <p class="note">Kept alongside the single-leg squat, not as a substitute for it. Record the dumbbell weight per hand.</p>
             </div>
@@ -580,13 +608,14 @@
             <input type="checkbox" id="b3-check" />
             <div class="body">
               <label class="name" for="b3-check">Step-ups</label>
-              <div class="tags"><span class="tag">3 × 10</span><span class="tag">each leg</span><span class="tag">log load</span></div>
+              <div class="tags"><span class="tag">each leg</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="b3-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="b3-reps" placeholder="10" aria-label="Reps per set" /></div>
               <div class="load-field">
                 <div class="load-input-row">
                   <label for="b3-load">Load</label>
-                  <input type="text" inputmode="decimal" id="b3-load" data-load="b3" placeholder="e.g. 12.5kg" />
+                  <input type="text" inputmode="decimal" class="num num-load" id="b3-load" data-load="b3" data-suffix="each hand" placeholder="6" />
+                  <span class="unit">kg each hand</span>
                 </div>
-                <p class="load-suggested">Suggested: 6kg each hand</p>
               </div>
               <p class="note">Loaded, leading leg. Record the dumbbell weight per hand.</p>
             </div>
@@ -598,7 +627,8 @@
             <input type="checkbox" id="b4-check" />
             <div class="body">
               <label class="name" for="b4-check">Bridge</label>
-              <div class="tags"><span class="tag">3 × 10</span><span class="tag">double → single-leg</span></div>
+              <div class="tags"><span class="tag">double → single-leg</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="b4-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="b4-reps" placeholder="10" aria-label="Reps per set" /></div>
               <p class="note">Progress to the single-leg version once the double-leg version is consistently clean and symptom-free.</p>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -609,7 +639,8 @@
             <input type="checkbox" id="b5-check" />
             <div class="body">
               <label class="name" for="b5-check">Clamshell / banded hip abduction</label>
-              <div class="tags"><span class="tag">2 × 12</span><span class="tag">each side</span><span class="tag new">new</span></div>
+              <div class="tags"><span class="tag">each side</span><span class="tag new">new</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="b5-sets" placeholder="2" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="b5-reps" placeholder="12" aria-label="Reps per set" /></div>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -619,13 +650,13 @@
             <input type="checkbox" id="b6-check" />
             <div class="body">
               <label class="name" for="b6-check">Prone leg curl</label>
-              <div class="tags"><span class="tag">3 × 10</span><span class="tag">log load</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="b6-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="b6-reps" placeholder="10" aria-label="Reps per set" /></div>
               <div class="load-field">
                 <div class="load-input-row">
                   <label for="b6-load">Load</label>
-                  <input type="text" inputmode="decimal" id="b6-load" data-load="b6" placeholder="e.g. 32kg" />
+                  <input type="text" inputmode="decimal" class="num num-load" id="b6-load" data-load="b6" data-suffix="" placeholder="32" />
+                  <span class="unit">kg</span>
                 </div>
-                <p class="load-suggested">Suggested: 32kg (set 13/09)</p>
               </div>
               <p class="note">Named load — record the machine stack weight so progression is trackable week to week.</p>
             </div>
@@ -637,7 +668,7 @@
             <input type="checkbox" id="b7-check" />
             <div class="body">
               <label class="name" for="b7-check">Plank</label>
-              <div class="tags"><span class="tag">3 × 30–35s</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="b7-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="b7-reps" placeholder="40" aria-label="Seconds per set" /><span class="unit">s</span></div>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -647,7 +678,8 @@
             <input type="checkbox" id="b8-check" />
             <div class="body">
               <label class="name" for="b8-check">Dead bug</label>
-              <div class="tags"><span class="tag">3 × 8</span><span class="tag">each side</span></div>
+              <div class="tags"><span class="tag">each side</span></div>
+              <div class="dose"><input type="text" inputmode="numeric" class="num" data-field="b8-sets" placeholder="3" aria-label="Sets" /><span class="times">×</span><input type="text" inputmode="numeric" class="num" data-field="b8-reps" placeholder="8" aria-label="Reps per set" /></div>
             </div>
             <svg class="chev" width="16" height="16" viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </div>
@@ -665,7 +697,7 @@
         <button type="button" id="reset-btn">Reset today's checks</button>
         <button type="button" id="copy-btn">Copy session summary</button>
       </div>
-      <span class="finalised">finalised 13/09/2026</span>
+      <span class="finalised">finalised 13/09/2026 · updated 08/10/2026</span>
       <p class="copy-status" id="copy-status" aria-live="polite"></p>
     </div>
 
@@ -734,7 +766,7 @@
 
     if (hasNote) {
       row.addEventListener('click', function (e) {
-        if (e.target === cb || e.target.tagName === 'LABEL' || e.target.closest('.load-field')) return;
+        if (e.target === cb || e.target.tagName === 'LABEL' || e.target.closest('.load-field') || e.target.closest('.dose')) return;
         li.classList.toggle('open');
       });
     }
@@ -757,12 +789,35 @@
 
   document.querySelectorAll('.load-field input').forEach(function (input) {
     var key = input.getAttribute('data-load');
-    if (loads[key]) input.value = loads[key];
+    if (loads[key]) input.value = String(loads[key]).replace(/\s*kg.*$/i, '');
     input.addEventListener('input', function () {
       loads[key] = input.value;
       saveLoads(loads);
     });
   });
+
+  var DOSE_KEY = 'sc-checklist-v1-dose';
+  function loadDose() {
+    try { return JSON.parse(localStorage.getItem(DOSE_KEY) || '{}'); } catch (e) { return {}; }
+  }
+  function saveDose(d) {
+    try { localStorage.setItem(DOSE_KEY, JSON.stringify(d)); } catch (e) {}
+  }
+  var dose = loadDose();
+  document.querySelectorAll('.dose input').forEach(function (input) {
+    var key = input.getAttribute('data-field');
+    if (dose[key]) input.value = dose[key];
+    input.addEventListener('input', function () {
+      dose[key] = input.value;
+      saveDose(dose);
+    });
+  });
+
+  // Entered value, or the placeholder (the prescription) when left blank.
+  function val(input) {
+    if (!input) return '';
+    return input.value.trim() || input.getAttribute('placeholder') || '';
+  }
 
   function todayUK() {
     var d = new Date();
@@ -778,9 +833,18 @@
       var name = li.querySelector('.name').textContent.trim();
       var cb = li.querySelector('input[type="checkbox"]');
       var mark = cb && cb.checked ? '[x]' : '[ ]';
+      var doseInputs = li.querySelectorAll('.dose input');
+      var unitEl = li.querySelector('.dose .unit');
+      var doseVal = doseInputs.length === 2
+        ? ' — ' + val(doseInputs[0]) + ' × ' + val(doseInputs[1]) + (unitEl ? unitEl.textContent : '')
+        : '';
       var loadInput = li.querySelector('.load-field input');
-      var loadVal = loadInput && loadInput.value ? ' — ' + loadInput.value : '';
-      lines.push(mark + ' ' + name + loadVal);
+      var loadVal = '';
+      if (loadInput && val(loadInput)) {
+        var suffix = loadInput.getAttribute('data-suffix');
+        loadVal = ' — ' + val(loadInput) + 'kg' + (suffix ? ' ' + suffix : '');
+      }
+      lines.push(mark + ' ' + name + doseVal + loadVal);
     });
     return lines.join('\n');
   }
@@ -843,7 +907,9 @@
     saveState(state);
     loads = {};
     saveLoads(loads);
-    document.querySelectorAll('.load-field input').forEach(function (input) { input.value = ''; });
+    dose = {};
+    saveDose(dose);
+    document.querySelectorAll('.load-field input, .dose input').forEach(function (input) { input.value = ''; });
     applyState();
     document.querySelectorAll('.exercises li').forEach(function (li) { li.classList.remove('open'); });
   });
